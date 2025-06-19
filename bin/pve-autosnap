@@ -410,7 +410,12 @@ autosnap_desc="automatic snapshot"
 
 if [ "${arg_keep}" -gt '0' ]
 then
-    ${pve_manager} "${cmd_create_snapshot}" "${arg_vmid}" "${autosnap_name}" -description "${autosnap_desc}"
+    if [ "${pve_manager}" = "/usr/sbin/qm" ]
+    then
+        ${pve_manager} "${cmd_create_snapshot}" "${arg_vmid}" "${autosnap_name}" -description "${autosnap_desc}" -vmstate true
+    else
+        ${pve_manager} "${cmd_create_snapshot}" "${arg_vmid}" "${autosnap_name}" -description "${autosnap_desc}"
+    fi
 fi
 
 # ----------------------------------------------------------------------------
